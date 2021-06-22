@@ -82,8 +82,9 @@ class ECSHelper::TaskDefinitionHelper
   end
 
   def version_image(repo)
-    client.describe_images({repository_name: repo.repository_name, image_ids: [image_tag: version]})
-  rescue
+    helper.client.describe_images({repository_name: repo.repository_name, image_ids: [image_tag: version]})
+  rescue => e
+    puts e
     nil
   end
 
