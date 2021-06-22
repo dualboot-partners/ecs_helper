@@ -1,0 +1,12 @@
+/.bundle
+
+/log/*
+/tmp/*
+!/log/.keep
+!/tmp/.keep
+*.gem
+
+.aws
+.env
+tmp
+
