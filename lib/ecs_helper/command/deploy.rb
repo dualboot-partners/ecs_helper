@@ -21,7 +21,7 @@ class ECSHelper::Command::Deploy < ECSHelper::Command::Base
   end
 
   def run
-    task_definition_helper = TaskDefinitionHelper.new(helper, service)
+    task_definition_helper = ECSHelper::TaskDefinitionHelper.new(helper, service)
     service_task_definition = task_definition_helper.service_task_definition
     new_task_definition_hash = task_definition_helper.new_task_definition_hash
     new_task_definition = task_definition_helper.register_task_definition(new_task_definition_hash)

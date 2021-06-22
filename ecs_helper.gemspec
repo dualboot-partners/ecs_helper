@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'ecs_helper'
-  s.version     = '0.0.13'
+  s.version     = '0.0.14'
   s.summary     = "ECSHelper"
   s.description = "A simple gem which make CI CD process easier for AWS ECS service"
   s.authors     = ["Artem Petrov"]
@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.files       = Dir['lib/**/*.rb']
   s.bindir      = 'bin'
   s.executables << 'ecs_helper'
-  s.homepage    = 'https://rubygems.org/gems/ecs_helper'
+  s.homepage    = 'https://github.com/artempartos/ecs_helper'
   s.license     = 'MIT'
 
   s.add_runtime_dependency 'aws-sdk-ecs', '~> 1.80', '>= 1.80'
