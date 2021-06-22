@@ -34,7 +34,7 @@ class ECSHelper::TaskDefinitionHelper
   end
 
   def new_task_definition_hash
-      attributes_to_remove = list = [:task_definition_arn, :revision, :status, :requires_attributes, :compatibilities, :registered_at, :registered_by]
+      attributes_to_remove = list = [:task_definition_arn, :revision, :status, :requires_attributes, :compatibilities, :registered_at, :registered_by, :deregistered_at]
       service_task_definition.to_hash
         .reject { |k,v| attributes_to_remove.include?(k.to_sym) }
         .merge(container_definitions: new_container_definitions)
