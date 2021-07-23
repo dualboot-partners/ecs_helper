@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'ecs_helper'
-  s.version     = '0.0.16'
+  s.version     = '0.0.17'
   s.summary     = "ECSHelper"
   s.description = "A simple gem which make CI CD process easier for AWS ECS service"
   s.authors     = ["Artem Petrov"]
