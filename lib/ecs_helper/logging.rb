@@ -8,9 +8,9 @@ module ECSHelper::Logging
     end
   end
 
-  def error(message)
+  def error(message, code = 1)
     puts "Error".red
     puts message
-    exit
+    exit code
   end
 end
