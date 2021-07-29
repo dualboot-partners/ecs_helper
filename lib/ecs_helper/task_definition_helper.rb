@@ -41,7 +41,7 @@ class ECSHelper::TaskDefinitionHelper
   end
 
   def container_definition_to_ecr(cd)
-    repo = repo_for(cd.name)
+    repo = repo_for(cd)
     is_ecr = cd.image.include?(ecr_base)
     image = repo && version_image(repo)
     should_update = is_ecr && repo && image
@@ -58,18 +58,9 @@ class ECSHelper::TaskDefinitionHelper
 
   private
 
-  def container_definition_to_ecr(cd)
-    repo = repo_for(cd.name)
-    is_ecr = cd.image.include?(ecr_base)
-    image = repo && version_image(repo)
-    should_update = is_ecr && repo && image
-    [repo, is_ecr, image, should_update]
-  end
-
-  def repo_for(name)
+  def repo_for(cd)
     repositories.find do |r|
-      uri = r.repository_uri
-      uri.include?(helper.application) && uri.include?(helper.project) && uri.include?(name)
+      cd.image.include?(r.repository_uri)
     end
   end
 

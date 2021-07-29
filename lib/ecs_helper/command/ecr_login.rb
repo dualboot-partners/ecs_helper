@@ -17,7 +17,7 @@ class ECSHelper::Command::ECRLogin < ECSHelper::Command::Base
   def run
     log("Command", type)
     log("Auth Private", auth_private)
-    log("Auth Public", auth_public)
+    # log("Auth Public", auth_public)
   end
 
   def auth_public

@@ -1,6 +1,7 @@
 BRANCH_TO_ENV_MAPPING = {
   master: 'production',
   qa: 'qa',
+  uat: 'uat',
   staging: 'staging',
   demo: 'demo',
 }
