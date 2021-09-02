@@ -31,6 +31,7 @@ class ECSHelper::Command::ExportImages < ECSHelper::Command::Base
   def export_images
     variables = (['export'] + client.private_repositories.map do |repo|
       container_name = repo.repository_name.scan(/#{project}-#{application}-(.*)/).flatten.first
+      next if conainer_name.nil?
       key = container_name.upcase.gsub("-", "_") + "_IMAGE"
       value = "#{repo.repository_uri}:#{helper.version}"
       "#{key}=#{value}"
