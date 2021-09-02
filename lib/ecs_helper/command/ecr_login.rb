@@ -17,12 +17,6 @@ class ECSHelper::Command::ECRLogin < ECSHelper::Command::Base
   def run
     log("Command", type)
     log("Auth Private", auth_private)
-    # log("Auth Public", auth_public)
-  end
-
-  def auth_public
-    auth_cmd = Terrapin::CommandLine.new("aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws")
-    auth_cmd.run
   end
 
   def auth_private
