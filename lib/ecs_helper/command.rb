@@ -48,25 +48,3 @@ def global_option_parser
     opts.banner = "Usage: ecs_helper command [options]"
   end
 end
-
-
-def self.parse
-  options = {}
-  command = ARGV.shift
-
-  unless command && Command::AVAILABLE_COMMANDS.include?(command)
-    puts "Command not found".light_white
-    puts "Available commands are #{Command::AVAILABLE_COMMANDS}".light_white
-    puts global
-    exit
-  end
-
-  subcommands_parser, required = subcommands(command, options)
-  subcommands_parser.permute!(into: options)
-
-  validate(command, options, required, subcommands_parser)
-
-  [command, options]
-end
-
-
