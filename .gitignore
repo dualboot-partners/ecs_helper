@@ -9,4 +9,5 @@
 .aws
 .env
 tmp
+coverage/
 
