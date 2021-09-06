@@ -3,5 +3,10 @@
 
 require 'ecs_helper'
 
-helper = ECSHelper.new
-helper.run
+begin
+  helper = ECSHelper.new
+  helper.run
+rescue ECSHelper::Error::Base => e
+  puts e.message
+  exit 1
+end

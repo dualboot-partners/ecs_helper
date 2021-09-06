@@ -20,6 +20,7 @@ services:
       - BUNDLE_PATH=/bundle_cache
       - GEM_HOME=/bundle_cache
       - GEM_PATH=/bundle_cache
+      - SKIP_LOGS=true
 
   bundle_cache:
     image: busybox
