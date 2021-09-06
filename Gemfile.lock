@@ -1,13 +1,12 @@
 PATH
   remote: .
   specs:
-    ecs_helper (0.0.21)
+    ecs_helper (0.0.22)
       aws-sdk-ecr (~> 1.42, >= 1.42)
       aws-sdk-ecrpublic (~> 1.3, >= 1.3)
       aws-sdk-ecs (~> 1.80, >= 1.80)
       colorize (~> 0.8, >= 0.8)
       json (~> 2.5, >= 2.5)
-      rake
       terrapin (~> 0.6, >= 0.6)
 
 GEM
@@ -18,8 +17,8 @@ GEM
     ast (2.4.2)
     awesome_print (1.9.2)
     aws-eventstream (1.2.0)
-    aws-partitions (1.494.0)
-    aws-sdk-core (3.120.0)
+    aws-partitions (1.496.0)
+    aws-sdk-core (3.121.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.239.0)
       aws-sigv4 (~> 1.1)
@@ -33,7 +32,7 @@ GEM
     aws-sdk-ecs (1.85.0)
       aws-sdk-core (~> 3, >= 3.120.0)
       aws-sigv4 (~> 1.1)
-    aws-sigv4 (1.3.0)
+    aws-sigv4 (1.4.0)
       aws-eventstream (~> 1, >= 1.0.2)
     byebug (11.1.3)
     climate_control (0.2.0)
@@ -109,18 +108,17 @@ PLATFORMS
 
 DEPENDENCIES
   awesome_print
+  bundler (~> 2.2)
   coveralls
   ecs_helper!
   minitest
   pry
   pry-byebug
   pry-inline
+  rake
   rubocop
   rubocop-minitest
   webmock
-
-RUBY VERSION
-   ruby 3.0.2p107
 
 BUNDLED WITH
    2.2.22
