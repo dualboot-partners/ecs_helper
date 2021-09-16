@@ -21,7 +21,9 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency 'awesome_print'
   s.add_development_dependency 'minitest'
+  s.add_development_dependency 'mocha'
   s.add_development_dependency 'pry'
+  s.add_development_dependency 'minitest-power_assert'
   s.add_development_dependency 'pry-byebug'
   s.add_development_dependency 'pry-inline'
   s.add_development_dependency 'rubocop'

@@ -17,6 +17,14 @@ class ECSHelper::Command::Base
     helper.type
   end
 
+  def project
+    helper.project
+  end
+
+  def application
+    helper.application
+  end
+
   def validate
     required.each do |r|
       value = options[r]

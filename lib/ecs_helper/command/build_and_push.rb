@@ -55,7 +55,7 @@ class ECSHelper::Command::BuildAndPush < ECSHelper::Command::Base
     pull_cmd = Terrapin::CommandLine.new("docker pull #{latest_tag}")
     pull_cmd.run
   rescue Terrapin::ExitStatusError => e
-    puts e.message
+    console e.message
   end
 
   def build
@@ -66,7 +66,7 @@ class ECSHelper::Command::BuildAndPush < ECSHelper::Command::Base
     command = (build_command + build_args + cache_command + tags_command).join(' ')
     build_cmd = Terrapin::CommandLine.new(command)
 
-    puts "Building with two tags: #{latest_tag} & #{version_tag}"
+    console "Building with two tags: #{latest_tag} & #{version_tag}"
     build_cmd.run
   end
 

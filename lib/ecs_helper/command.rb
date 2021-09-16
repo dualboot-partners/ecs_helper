@@ -26,10 +26,12 @@ class ECSHelper::Command
 
   def klass
     CMD_MAPPING[type] || begin
-      puts "Command not found".light_white
-      puts "Available commands are #{AVAILABLE_COMMANDS}".light_white
-      puts global_option_parser
-      exit
+      messages = [
+        "Command not found".light_white,
+        "Available commands are #{AVAILABLE_COMMANDS}".light_white,
+        global_option_parser
+      ]
+      raise ECSHelper::Error::CommandNotFound.new(messages)
     end
   end
 

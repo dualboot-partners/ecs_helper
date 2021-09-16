@@ -1,13 +1,11 @@
 require 'aws-sdk-ecs'
 require 'aws-sdk-ecr'
-require 'aws-sdk-ecrpublic'
 
 class ECSHelper::Client
-  attr_accessor :ecs, :ecr, :ecr_public
+  attr_accessor :ecs, :ecr
   def initialize
     @ecs = Aws::ECS::Client.new
     @ecr = Aws::ECR::Client.new
-    @ecr_public = Aws::ECRPublic::Client.new
   end
 
   # ECS
@@ -59,10 +57,6 @@ class ECSHelper::Client
   # ECR
   def private_repositories(params = {})
     ecr.describe_repositories(params).repositories
-  end
-
-  def public_repositories(params = {})
-    ecr_public.describe_repositories(params).repositories
   end
 
   def describe_images(params = {})

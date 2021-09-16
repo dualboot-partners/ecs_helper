@@ -11,6 +11,7 @@ class ECSHelper
   autoload :ClusterHelper, 'ecs_helper/cluster_helper'
   autoload :ServiceHelper, 'ecs_helper/service_helper'
   autoload :TaskDefinitionHelper, 'ecs_helper/task_definition_helper'
+  autoload :Error, 'ecs_helper/error'
   autoload :Command, 'ecs_helper/command'
 
   def_delegators :client, :task_definitions, :clusters, :services, :tasks, :repositories, :repositories, :task_definition, :run_task
