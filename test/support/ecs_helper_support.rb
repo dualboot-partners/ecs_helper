@@ -6,7 +6,12 @@ module ECSHelperSupport
     version: :test_sha,
     project: "test-pro",
     application: "test-app",
+    environment: 'qa'
   }
+
+  def env_prefix
+    "#{DEFAULTS[:project]}-#{DEFAULTS[:application]}-#{DEFAULTS[:environment]}"
+  end
 
   def with_command(string, attrs = {})
     new_setup = OpenStruct.new(DEFAULTS.merge(attrs))

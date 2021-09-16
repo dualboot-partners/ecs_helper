@@ -15,7 +15,9 @@ class ECSHelper::Command::ExportImages < ECSHelper::Command::Base
   end
 
   def run
-    puts export_images
+    variables = export_images
+    puts variables
+    variables
   end
 
   private

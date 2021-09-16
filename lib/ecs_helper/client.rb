@@ -1,11 +1,13 @@
 require 'aws-sdk-ecs'
 require 'aws-sdk-ecr'
+require 'aws-sdk-ssm'
 
 class ECSHelper::Client
-  attr_accessor :ecs, :ecr
+  attr_accessor :ecs, :ecr, :ssm
   def initialize
     @ecs = Aws::ECS::Client.new
     @ecr = Aws::ECR::Client.new
+    @ssm = Aws::SSM::Client.new
   end
 
   # ECS
@@ -61,5 +63,10 @@ class ECSHelper::Client
 
   def describe_images(params = {})
     ecr.describe_images(params).image_details[0]
+  end
+
+  # SSM
+  def get_ssm_parameter(params = {})
+    ssm.get_parameter(params).parameter
   end
 end
