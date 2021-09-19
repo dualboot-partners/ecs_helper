@@ -19,4 +19,10 @@ module StubSupport
   def stub_terrapin
     Terrapin::CommandLine.any_instance.stubs(:run).returns(true)
   end
+
+  def stub_repositories(repos)
+    stub_responses = ::Aws.config[:ecr][:stub_responses] rescue {}
+    stub_responses[:describe_repositories] = { repositories: repos }
+    ::Aws.config[:ecr] = { stub_responses: stub_responses }
+  end
 end

@@ -21,7 +21,6 @@ require 'terrapin'
 
 module Minitest
   class Test
-    include AwsSupport
     include ECSHelperSupport
     include StubSupport
 

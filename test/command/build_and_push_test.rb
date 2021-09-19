@@ -66,21 +66,10 @@ class ECSHelper::Command::BuildAndPushTest < Minitest::Test
     }
 
     repos = names.each_with_object({}) do |(key, repo_name), hash|
-      hash[key] =
-        {
-          repository_arn: repository_arn(repo_name),
-          repository_name: repository_name(repo_name),
-          repository_uri: repository_uri(repo_name)
-        }
+      hash[key] = AwsSupport.repository(repo_name)
     end
 
-    ::Aws.config[:ecr] = {
-      stub_responses: {
-        describe_repositories: { repositories: repos.values }
-      }
-    }
-
+    stub_repositories(repos.values)
     repos[repo_key]
   end
 end
-
