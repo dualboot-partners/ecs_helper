@@ -39,22 +39,48 @@ class ECSHelper::Command::BuildAndPushTest < Minitest::Test
     end
   end
 
+  def test_build_and_push_nginx
+    command = 'build_and_push --image=nginx'
+    cache = false
+
+    with_command(command) do |setup|
+      repo = prepare_data(setup, :nginx)
+
+      stub_auth()
+      stub_build(repo[:repository_uri], setup.version, cache)
+      stub_push(repo[:repository_uri], setup.version)
+
+      helper = ECSHelper.new
+      helper.run
+    end
+  end
 
   private
 
-  def prepare_data(setup)
-    name1 = "web"
-    name2 = "#{setup.project}-#{setup.application}-web"
+  def prepare_data(setup, repo_key = :web)
+    names = {
+      web: "#{setup.project}-#{setup.application}-web",
+      only_web: 'web',
+      nginx: "#{setup.project}-#{setup.application}-nginx",
+      some_other_nginx_repo: 'some_other_project-nginx',
+    }
 
-    repo1 = { repository_arn: repository_arn(name1), repository_name: repository_name(name1), repository_uri: repository_uri(name1) }
-    repo2 = { repository_arn: repository_arn(name2), repository_name: repository_name(name2), repository_uri: repository_uri(name2) }
+    repos = names.each_with_object({}) do |(key, repo_name), hash|
+      hash[key] =
+        {
+          repository_arn: repository_arn(repo_name),
+          repository_name: repository_name(repo_name),
+          repository_uri: repository_uri(repo_name)
+        }
+    end
 
     ::Aws.config[:ecr] = {
       stub_responses: {
-        describe_repositories: { repositories: [ repo1, repo2 ] }
+        describe_repositories: { repositories: repos.values }
       }
     }
-    return repo2
+
+    repos[repo_key]
   end
 end
 
