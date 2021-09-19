@@ -93,6 +93,14 @@ class ECSHelper::Command::BuildAndPush < ECSHelper::Command::Base
     "#{repository}:#{helper.version}"
   end
 
+  def project
+    helper.project
+  end
+
+  def application
+    helper.application
+  end
+
   def repository
     @repository ||= begin
       all = client.private_repositories

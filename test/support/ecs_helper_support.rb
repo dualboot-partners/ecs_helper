@@ -28,8 +28,4 @@ module ECSHelperSupport
     yield(new_setup)
     ARGV.replace prev
   end
-
-  def stub_terrapin
-    Terrapin::CommandLine.any_instance.stubs(:run).returns(true)
-  end
 end
