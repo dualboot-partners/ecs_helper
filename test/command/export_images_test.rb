@@ -2,9 +2,6 @@
 
 require 'test_helper'
 
-require 'aws-sdk-ecs'
-require 'aws-sdk-ecr'
-
 class ECSHelper::Command::ExportImagesTest < Minitest::Test
   def test_export_env_secrets_with_no_vars
     command = 'export_images'
@@ -14,10 +11,12 @@ class ECSHelper::Command::ExportImagesTest < Minitest::Test
       stub_repositories([repo])
 
       helper = ECSHelper.new
-      export_string = helper.run
-      assert (export_string =~ /^export/)
+      expected_result = /^export.+WEB_IMAGE=#{repo[:repository_uri]}.*/
 
-      assert (export_string =~ /WEB_IMAGE=#{repo[:repository_uri]}.*/)
+      assert_output(expected_result) do
+        export_string = helper.run
+        assert (export_string =~ expected_result)
+      end
     end
   end
 end

@@ -43,7 +43,10 @@ class ECSHelper::Command
 
   def run
     command.validate
-    command.run
+    result = command.run
+    puts command if command.printable?
+    puts result if command.printable?
+    result
   end
 end
 

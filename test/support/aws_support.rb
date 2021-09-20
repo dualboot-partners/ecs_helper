@@ -1,3 +1,6 @@
+require 'aws-sdk-ecs'
+require 'aws-sdk-ecr'
+
 class AwsSupport
   class << self
     def region

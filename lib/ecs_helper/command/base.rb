@@ -37,11 +37,15 @@ class ECSHelper::Command::Base
     end
   end
 
-  private
-
   def required
     []
   end
+
+  def printable?
+    false
+  end
+
+  private
 
   def processEqual(value)
     value.start_with?('=') ? value[1..-1] : value

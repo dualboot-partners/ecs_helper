@@ -14,6 +14,10 @@ class ECSHelper::Command::ExportImages < ECSHelper::Command::Base
     []
   end
 
+  def printable?
+    true
+  end
+
   def run
     export_images
   end

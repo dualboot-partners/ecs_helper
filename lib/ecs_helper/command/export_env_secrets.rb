@@ -18,6 +18,10 @@ class ECSHelper::Command::ExportEnvSecrets < ECSHelper::Command::Base
     []
   end
 
+  def printable?
+    true
+  end
+
   def run
     return log("No ENV secrets to export. Please pass ENV variables names using -n") if options[:env_vars].empty?
     export_values
@@ -42,5 +46,6 @@ class ECSHelper::Command::ExportEnvSecrets < ECSHelper::Command::Base
     rescue Aws::SSM::Errors::ParameterNotFound
       next
     end).join(' ')
+    variables
   end
 end
