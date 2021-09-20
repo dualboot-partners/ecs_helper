@@ -6,6 +6,7 @@ class ECSHelper::Command
   autoload :ExportImages, 'ecs_helper/command/export_images'
   autoload :ECRLogin, 'ecs_helper/command/ecr_login'
   autoload :RunCommand, 'ecs_helper/command/run_command'
+  autoload :ExportEnvSecrets, 'ecs_helper/command/export_env_secrets'
 
   CMD_MAPPING  = {
     "build_and_push" => BuildAndPush,
@@ -13,6 +14,7 @@ class ECSHelper::Command
     "export_images" => ExportImages,
     "ecr_login" => ECRLogin,
     "run_command" => RunCommand,
+    "export_env_secrets" => ExportEnvSecrets,
   }
   AVAILABLE_COMMANDS = CMD_MAPPING.keys
 

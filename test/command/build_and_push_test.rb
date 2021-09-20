@@ -11,7 +11,7 @@ class ECSHelper::Command::BuildAndPushTest < Minitest::Test
     cache = true
 
     with_command(command) do |setup|
-      repo = prepare_data(setup)
+      repo = prepare_data(setup, :web)
 
       stub_auth()
       stub_pull(repo[:repository_uri])
@@ -28,7 +28,7 @@ class ECSHelper::Command::BuildAndPushTest < Minitest::Test
     cache = false
 
     with_command(command) do |setup|
-      repo = prepare_data(setup)
+      repo = prepare_data(setup, :web)
 
       stub_auth()
       stub_build(repo[:repository_uri], setup.version, cache)

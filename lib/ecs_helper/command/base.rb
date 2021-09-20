@@ -6,6 +6,7 @@ class ECSHelper::Command::Base
   include ECSHelper::Logging
   attr_accessor :type, :options, :helper, :client, :option_parser
 
+
   def initialize(helper)
     @client = helper.client
     @helper = helper

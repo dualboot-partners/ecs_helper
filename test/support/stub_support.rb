@@ -25,4 +25,10 @@ module StubSupport
     stub_responses[:describe_repositories] = { repositories: repos }
     ::Aws.config[:ecr] = { stub_responses: stub_responses }
   end
+
+  def stub_parameters(parameters)
+    stub_responses = ::Aws.config[:ssm][:stub_responses] rescue {}
+    stub_responses[:get_parameters] = { parameters: parameters }
+    ::Aws.config[:ssm] = { stub_responses: stub_responses }
+  end
 end

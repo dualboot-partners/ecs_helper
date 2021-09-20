@@ -27,5 +27,12 @@ class AwsSupport
         repository_uri: repository_uri(name)
       }
     end
+
+    def parameter(name, value)
+      {
+        name: name,
+        value: value
+      }
+    end
   end
 end

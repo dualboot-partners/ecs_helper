@@ -15,7 +15,7 @@ class ECSHelper::Command::ExportImages < ECSHelper::Command::Base
   end
 
   def run
-    puts export_images
+    export_images
   end
 
   private
