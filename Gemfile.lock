@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    ecs_helper (0.0.26)
+    ecs_helper (0.0.31)
       aws-sdk-ecr (~> 1.42, >= 1.42)
       aws-sdk-ecrpublic (~> 1.3, >= 1.3)
       aws-sdk-ecs (~> 1.80, >= 1.80)
@@ -38,6 +38,7 @@ GEM
       aws-sigv4 (~> 1.0)
     aws-sigv4 (1.4.0)
       aws-eventstream (~> 1, >= 1.0.2)
+    bump (0.10.0)
     byebug (11.1.3)
     climate_control (0.2.0)
     coderay (1.1.3)
@@ -95,10 +96,12 @@ GEM
       hashdiff (>= 0.4.0, < 2.0.0)
 
 PLATFORMS
-  x86_64-linux-musl
+  x86_64-darwin-18
+  x86_64-linux
 
 DEPENDENCIES
   awesome_print
+  bump
   bundler (~> 2.2)
   ecs_helper!
   minitest
@@ -113,4 +116,4 @@ DEPENDENCIES
   webmock
 
 BUNDLED WITH
-   2.2.22
+   2.2.27
