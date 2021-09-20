@@ -36,6 +36,8 @@ class ECSHelper::Command::ExportImages < ECSHelper::Command::Base
       value = "#{repo.repository_uri}:#{helper.version}"
       "#{key}=#{value}"
     end).join(' ')
+
+    puts variables
     variables
   end
 end

@@ -14,10 +14,12 @@ class ECSHelper::Command::ExportImagesTest < Minitest::Test
       stub_repositories([repo])
 
       helper = ECSHelper.new
-      export_string = helper.run
-      assert (export_string =~ /^export/)
+      image_regexp = /^export.+WEB_IMAGE=#{repo[:repository_uri]}.*/
 
-      assert (export_string =~ /WEB_IMAGE=#{repo[:repository_uri]}.*/)
+      assert_output(image_regexp) do
+        export_string = helper.run
+        assert (export_string =~ image_regexp)
+      end
     end
   end
 end
