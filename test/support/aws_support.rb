@@ -23,6 +23,14 @@ class AwsSupport
       "https://#{account_id}.dkr.ecr.#{region}.amazonaws.com/repository/#{name}"
     end
 
+    def cluster_arn(project, env)
+      "arn:aws:ecs:#{region}:#{account_id}:cluster/#{project}-cluster-#{env}"
+    end
+
+    def service_arn(project, application, env)
+      "arn:aws:ecs:#{region}:#{account_id}:service/#{project}-cluster-#{env}/#{application}-service-#{env}"
+    end
+
     def repository(name)
       {
         repository_arn: repository_arn(name),

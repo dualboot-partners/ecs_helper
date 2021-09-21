@@ -1,23 +1,39 @@
 module StubSupport
-  def stub_auth
-    Terrapin::CommandLine.any_instance.expects(:execute).with('aws ecr get-login --no-include-email | sh')
+  def stub_auth()
+    command_prefix = 'auth'
+    command = 'aws ecr get-login --no-include-email | sh'
+    command_state = states('command').starts_as("#{command_prefix}_new")
+    result = "Success"
+    Terrapin::CommandLine.any_instance.expects(:initialize).with(command).when(command_state.is(("#{command_prefix}_new"))).then(command_state.is("#{command_prefix}_initiated"))
+    Terrapin::CommandLine.any_instance.expects(:run).returns(result)
   end
 
   def stub_pull(repo)
-    Terrapin::CommandLine.any_instance.expects(:execute).with("docker pull #{repo}:latest")
+    command_prefix = 'pull'
+    command_state = states('command').starts_as("#{command_prefix}_new")
+    command = "docker pull #{repo}:latest"
+    result = Terrapin::CommandLine::Output.new('success')
+    Terrapin::CommandLine.any_instance.expects(:initialize).with(command).when(command_state.is(("#{command_prefix}_new"))).then(command_state.is("#{command_prefix}_initiated"))
+    Terrapin::CommandLine.any_instance.expects(:run).returns(result)
   end
 
   def stub_build(repo, tag, cache = true)
+    command_prefix = 'build'
+    command_state = states('command').starts_as("#{command_prefix}_new")
     command = cache ? "docker build ./ --cache-from #{repo}:latest --tag #{repo}:latest --tag #{repo}:#{tag}" :  "docker build ./ --tag #{repo}:latest --tag #{repo}:#{tag}"
-    Terrapin::CommandLine.any_instance.expects(:execute).with(command)
+    result = Terrapin::CommandLine::Output.new('success')
+    Terrapin::CommandLine.any_instance.expects(:initialize).with(command).when(command_state.is(("#{command_prefix}_new"))).then(command_state.is("#{command_prefix}_initiated"))
+    Terrapin::CommandLine.any_instance.expects(:run).returns(result)
   end
 
   def stub_push(repo, tag)
-    Terrapin::CommandLine.any_instance.expects(:execute).with("docker push #{repo}:latest && docker push #{repo}:#{tag}")
-  end
-
-  def stub_terrapin
-    Terrapin::CommandLine.any_instance.stubs(:run).returns(true)
+    command_prefix = 'push'
+    command_state = states('command').starts_as("#{command_prefix}_new")
+    result = Terrapin::CommandLine::Output.new('success')
+    command = "docker push #{repo}:latest && docker push #{repo}:#{tag}"
+    result = "Success"
+    Terrapin::CommandLine.any_instance.expects(:initialize).with(command).when(command_state.is(("#{command_prefix}_new"))).then(command_state.is("#{command_prefix}_initiated"))
+    Terrapin::CommandLine.any_instance.expects(:run).returns(result)
   end
 
   def stub_repositories(repos)
@@ -30,5 +46,25 @@ module StubSupport
     stub_responses = ::Aws.config[:ssm][:stub_responses] rescue {}
     stub_responses[:get_parameters] = { parameters: parameters }
     ::Aws.config[:ssm] = { stub_responses: stub_responses }
+  end
+
+  def stub_bin(bin, result = "/usr/bin/#{bin}")
+    command_prefix = bin
+    command_state = states('command').starts_as("#{command_prefix}_new")
+    command = "which #{bin}"
+    Terrapin::CommandLine.any_instance.expects(:initialize).with(command).when(command_state.is(("#{command_prefix}_new"))).then(command_state.is("#{command_prefix}_initiated"))
+    Terrapin::CommandLine.any_instance.expects(:run).returns(result).when(command_state.is(("#{command_prefix}_initiated"))).then(command_state.is("#{command_prefix}_finished"))
+  end
+
+  def stub_clusters(clusters)
+    stub_responses = ::Aws.config[:ecs][:stub_responses] rescue {}
+    stub_responses[:list_clusters] = { cluster_arns: clusters }
+    ::Aws.config[:ecs] = { stub_responses: stub_responses }
+  end
+
+  def stub_services(services)
+    stub_responses = ::Aws.config[:ecs][:stub_responses] rescue {}
+    stub_responses[:list_services] = { service_arns: services }
+    ::Aws.config[:ecs] = { stub_responses: stub_responses }
   end
 end

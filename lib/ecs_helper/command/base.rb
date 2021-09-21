@@ -22,6 +22,15 @@ class ECSHelper::Command::Base
     helper.project
   end
 
+  def check_bin(bin)
+    check_cmd = Terrapin::CommandLine.new("which #{bin}")
+    result = check_cmd.run
+    "success"
+  rescue Terrapin::CommandNotFoundError, Terrapin::ExitStatusError => e
+    messages = ["#{bin} not found"]
+    raise ECSHelper::Error::BinNotFound.new(messages)
+  end
+
   def application
     helper.application
   end
@@ -29,10 +38,12 @@ class ECSHelper::Command::Base
   def validate
     required.each do |r|
       value = options[r]
-      unless value
-        puts "'#{r}' required for command '#{type}'".light_white
-        puts option_parser.help
-        exit
+      if value.nil?
+        messages = [
+          "'#{r}' required for command '#{type}'".light_white,
+          option_parser.help
+        ]
+        raise ECSHelper::Error::CommandValidationError.new(messages)
       end
     end
   end

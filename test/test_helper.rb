@@ -24,8 +24,6 @@ module Minitest
     include ECSHelperSupport
     include StubSupport
 
-    Terrapin::CommandLine.fake!
-
     def load_fixture(path)
       path = File.expand_path(File.join('..', 'fixtures', path), __FILE__)
       File.read(path)

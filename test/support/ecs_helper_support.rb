@@ -21,6 +21,7 @@ module ECSHelperSupport
     ENV["CI_COMMIT_SHA"] = new_setup.version.to_s
     ENV["PROJECT"] = new_setup.project.to_s
     ENV["APPLICATION"] = new_setup.application.to_s
+    ENV["ENVIRONMENT"] = new_setup.environment
 
     # AWS specific
     ENV['AWS_REGION'] ||= AwsSupport.region

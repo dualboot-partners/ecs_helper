@@ -56,6 +56,14 @@ class ECSHelper::Client
     ecs.describe_tasks(params).tasks
   end
 
+  def list_tasks(params = {})
+    ecs.list_tasks(params).task_arns
+  end
+
+  def execute_command(params = {})
+    ecs.execute_command(params)
+  end
+
   # ECR
   def private_repositories(params = {})
     ecr.describe_repositories(params).repositories

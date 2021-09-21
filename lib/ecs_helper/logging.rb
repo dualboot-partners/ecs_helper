@@ -1,6 +1,6 @@
 module ECSHelper::Logging
   def console(message)
-    puts message if ENV["SKIP_LOGS"].nil?
+    puts message if ENV["SKIP_LOGS"] != 'true'
   end
 
   def log(title, message = nil, color = "light_white")
