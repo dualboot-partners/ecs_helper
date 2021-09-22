@@ -39,7 +39,5 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'aws-sdk-ecs', '~> 1.80', '>= 1.80'
   s.add_runtime_dependency 'aws-sdk-ssm', '~> 1.0.0.rc7'
   s.add_runtime_dependency 'colorize', '~> 0.8', '>= 0.8'
-  s.add_runtime_dependency 'json', '~> 2.5', '>= 2.5'
   s.add_runtime_dependency 'terrapin', '~> 0.6', '>= 0.6'
-
 end

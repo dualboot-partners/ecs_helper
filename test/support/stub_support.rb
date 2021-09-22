@@ -48,10 +48,40 @@ module StubSupport
     ::Aws.config[:ssm] = { stub_responses: stub_responses }
   end
 
-  def stub_bin(bin, result = "/usr/bin/#{bin}")
-    command_prefix = bin
+  def stub_bin(bin, result = "Success")
+    command_prefix = "#{bin}-bin"
     command_state = states('command').starts_as("#{command_prefix}_new")
     command = "which #{bin}"
+    Terrapin::CommandLine.any_instance.expects(:initialize).with(command).when(command_state.is(("#{command_prefix}_new"))).then(command_state.is("#{command_prefix}_initiated"))
+    Terrapin::CommandLine.any_instance.expects(:run).returns(result).when(command_state.is(("#{command_prefix}_initiated"))).then(command_state.is("#{command_prefix}_finished"))
+  end
+
+  def stub_aws_cli(version)
+    versions = {
+      v1: 'aws-cli/1.19.111 Python/3.8.10 Linux/4.19.121-linuxkit botocore/1.20.111',
+      v2: 'aws-cli/2.2.4 Python/3.8.8 Linux/4.19.121-linuxkit docker/x86_64.amzn.2 prompt/off'
+    }
+    command_prefix = 'aws-cli'
+    command_state = states('command').starts_as("#{command_prefix}_new")
+    command = 'aws --version'
+    result = versions[version]
+    Terrapin::CommandLine.any_instance.expects(:initialize).with(command).when(command_state.is(("#{command_prefix}_new"))).then(command_state.is("#{command_prefix}_initiated"))
+    Terrapin::CommandLine.any_instance.expects(:run).returns(result).when(command_state.is(("#{command_prefix}_initiated"))).then(command_state.is("#{command_prefix}_finished"))
+  end
+
+  def stub_exec(cluster_arn, task_arn, container, command)
+    command_prefix = 'exec'
+    command_state = states('command').starts_as("#{command_prefix}_new")
+    command = "aws ecs execute-command --cluster #{cluster_arn} --task #{task_arn} --container #{container} --command #{command} --interactive"
+    result = "Success"
+    Terrapin::CommandLine.any_instance.expects(:initialize).with(command).when(command_state.is(("#{command_prefix}_new"))).then(command_state.is("#{command_prefix}_initiated"))
+    Terrapin::CommandLine.any_instance.expects(:run).returns(result).when(command_state.is(("#{command_prefix}_initiated"))).then(command_state.is("#{command_prefix}_finished"))
+  end
+
+  def stub_check_ecs_exec(cluster_arn, task_arn, result = 'Success')
+    command_prefix = 'check-ecs-exec'
+    command_state = states('command').starts_as("#{command_prefix}_new")
+    command = "#{command_prefix} #{cluster_arn} #{task_arn}"
     Terrapin::CommandLine.any_instance.expects(:initialize).with(command).when(command_state.is(("#{command_prefix}_new"))).then(command_state.is("#{command_prefix}_initiated"))
     Terrapin::CommandLine.any_instance.expects(:run).returns(result).when(command_state.is(("#{command_prefix}_initiated"))).then(command_state.is("#{command_prefix}_finished"))
   end
@@ -65,6 +95,12 @@ module StubSupport
   def stub_services(services)
     stub_responses = ::Aws.config[:ecs][:stub_responses] rescue {}
     stub_responses[:list_services] = { service_arns: services }
+    ::Aws.config[:ecs] = { stub_responses: stub_responses }
+  end
+
+  def stub_list_tasks(tasks_arns)
+    stub_responses = ::Aws.config[:ecs][:stub_responses] rescue {}
+    stub_responses[:list_tasks] = { task_arns: tasks_arns }
     ::Aws.config[:ecs] = { stub_responses: stub_responses }
   end
 end

@@ -6,6 +6,7 @@ class ECSHelper::Command
   autoload :ExportImages, 'ecs_helper/command/export_images'
   autoload :ECRLogin, 'ecs_helper/command/ecr_login'
   autoload :Exec, 'ecs_helper/command/exec'
+  autoload :CheckExec, 'ecs_helper/command/check_exec'
   autoload :RunCommand, 'ecs_helper/command/run_command'
   autoload :ExportEnvSecrets, 'ecs_helper/command/export_env_secrets'
 
@@ -17,6 +18,7 @@ class ECSHelper::Command
     "run_command" => RunCommand,
     "export_env_secrets" => ExportEnvSecrets,
     "exec" => Exec,
+    "check_exec" => CheckExec,
   }
   AVAILABLE_COMMANDS = CMD_MAPPING.keys
 

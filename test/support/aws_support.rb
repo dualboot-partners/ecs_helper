@@ -3,6 +3,11 @@ require 'aws-sdk-ecr'
 
 class AwsSupport
   class << self
+
+    def random_id(number)
+      Array.new(number){[*"a".."z", *"0".."9"].sample}.join
+    end
+
     def region
       "us-west-2"
     end
@@ -29,6 +34,10 @@ class AwsSupport
 
     def service_arn(project, application, env)
       "arn:aws:ecs:#{region}:#{account_id}:service/#{project}-cluster-#{env}/#{application}-service-#{env}"
+    end
+
+    def task_arn(project, env)
+      "arn:aws:ecs:#{region}:#{account_id}:task/#{project}-cluster-#{env}/#{random_id(32)}"
     end
 
     def repository(name)

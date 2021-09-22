@@ -48,15 +48,17 @@ class ECSHelper::Command::ExecTest < Minitest::Test
   end
 
   def test_exec_with_new_awscli
-    containers = ['web', 'sidekiq']
-    command = 'exec -c=web'
+    container = 'web'
+    cmd = '/bin/bash'
+    command = "exec -c=#{container} --command=#{cmd}"
 
     stub_bin("session-manager-plugin", '/usr/local/bin/session-manager-plugin')
     stub_bin("aws", '/usr/bin/aws')
     stub_aws_cli(:v2)
 
     with_command(command) do |setup|
-      prepare_data(setup)
+      cluster_arn, service_arn, task_arn = prepare_data(setup)
+      stub_exec(cluster_arn, task_arn, container, cmd)
 
       helper = ECSHelper.new
       helper.run
@@ -78,7 +80,10 @@ class ECSHelper::Command::ExecTest < Minitest::Test
       AwsSupport.service_arn(setup.project, 'another-app', setup.environment),
       AwsSupport.service_arn(setup.project, 'another-app', 'uat'),
     ]
+    task_arn = AwsSupport.task_arn(setup.project, setup.environment)
     stub_clusters(clusters)
     stub_services(services)
+    stub_list_tasks([task_arn])
+    [clusters[0], services[0], task_arn]
   end
 end

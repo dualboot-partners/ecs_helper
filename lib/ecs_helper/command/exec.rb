@@ -4,7 +4,7 @@ require 'terrapin'
 
 class ECSHelper::Command::Exec < ECSHelper::Command::Base
   def cmd_option_parser
-    options = { command: 'bash -c' }
+    options = { command: '/bin/bash' }
     parser = ::OptionParser.new do |opts|
       opts.banner = 'Usage: ecs_helper exec [options]. require session-manager-plugin and aws cli v2'
       opts.on('-p VALUE', '--project VALUE',
@@ -15,8 +15,8 @@ class ECSHelper::Command::Exec < ECSHelper::Command::Base
               "Set application name, if not specified will look at ENV['APPLICATION'], will be used to detect service and task definition") do |a|
         options[:application] = processEqual(a)
       end
-      opts.on('-c', '--container VALUE', 'Cache image before build, default false') { |c| options[:container] = c }
-      opts.on('--command VALUE', 'Command to execute') { |c| options[:command] = c }
+      opts.on('-c', '--container VALUE', 'Cache image before build, default false') { |c| options[:container] = processEqual(c) }
+      opts.on('--command VALUE', 'Command to execute') { |c| options[:command] = processEqual(c) }
     end
     [parser, options]
   end
@@ -74,8 +74,7 @@ class ECSHelper::Command::Exec < ECSHelper::Command::Base
   end
 
   def exec
-    exec_cmd = Terrapin::CommandLine.new("aws ecs execute-command --cluster #{cluster_arn} --task #{task_arn}  --container=#{helper.options[:container]} --command=#{helper.options[:command]}  --interactive")
-    # --region us-east-1
+    exec_cmd = Terrapin::CommandLine.new("aws ecs execute-command --cluster #{cluster_arn} --task #{task_arn} --container #{helper.options[:container]} --command #{helper.options[:command]} --interactive")
     exec_cmd.run
   end
 

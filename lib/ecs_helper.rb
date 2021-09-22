@@ -6,6 +6,8 @@ class ECSHelper
   extend Forwardable
   attr_accessor :options, :client, :command, :parser, :cluster_helper, :service_helper, :common_helper
 
+
+  autoload :VERSION, 'ecs_helper/version'
   autoload :Client, 'ecs_helper/client'
   autoload :CommonHelper, 'ecs_helper/common_helper'
   autoload :ClusterHelper, 'ecs_helper/cluster_helper'
