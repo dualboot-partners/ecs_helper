@@ -45,37 +45,20 @@ class ECSHelper::Command::Exec < ECSHelper::Command::Base
   def check_aws_cli
     check_bin('aws')
     check_aws_cli_version
-    "success"
   end
 
-
-  def check_aws_cli_version
-    check_cmd = Terrapin::CommandLine.new("aws --version")
-    result = check_cmd.run
-    version = parse_version(result)
-    if version === "1"
-      messages = [
-        "Exec command requires aws cli v2".light_white,
-        cmd_option_parser[0].help
-      ]
-      raise ECSHelper::Error::CommandValidationError.new(messages)
-    end
+  def printable?
+    true
   end
 
   def run
-    log("Command", type)
-    log("Cluster", cluster_arn)
-    log("Service", service_arn)
-    log("Task", task_arn)
-    log("Options", options)
-    log("Check session-manager-plugin ", check_session_manager_plugin)
-    log("Check aws cli version", check_aws_cli)
-    exec
+    check_session_manager_plugin
+    check_aws_cli
+    exec_command
   end
 
-  def exec
-    exec_cmd = Terrapin::CommandLine.new("aws ecs execute-command --cluster #{cluster_arn} --task #{task_arn} --container #{helper.options[:container]} --command #{helper.options[:command]} --interactive")
-    exec_cmd.run
+  def exec_command
+    "aws ecs execute-command --cluster #{cluster_arn} --task #{task_arn} --container #{helper.options[:container]} --command #{helper.options[:command]} --interactive"
   end
 
   private

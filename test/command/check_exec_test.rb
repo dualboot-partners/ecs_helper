@@ -27,7 +27,7 @@ class ECSHelper::Command::CheckExecTest < Minitest::Test
       stub_check_ecs_exec(cluster_arn, task_arn, result)
       helper = ECSHelper.new
 
-      assert_output("#{result}\n") do
+      assert_output(/#{result}/) do
         result_string = helper.run
         assert result == result_string
       end

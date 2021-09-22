@@ -69,15 +69,6 @@ module StubSupport
     Terrapin::CommandLine.any_instance.expects(:run).returns(result).when(command_state.is(("#{command_prefix}_initiated"))).then(command_state.is("#{command_prefix}_finished"))
   end
 
-  def stub_exec(cluster_arn, task_arn, container, command)
-    command_prefix = 'exec'
-    command_state = states('command').starts_as("#{command_prefix}_new")
-    command = "aws ecs execute-command --cluster #{cluster_arn} --task #{task_arn} --container #{container} --command #{command} --interactive"
-    result = "Success"
-    Terrapin::CommandLine.any_instance.expects(:initialize).with(command).when(command_state.is(("#{command_prefix}_new"))).then(command_state.is("#{command_prefix}_initiated"))
-    Terrapin::CommandLine.any_instance.expects(:run).returns(result).when(command_state.is(("#{command_prefix}_initiated"))).then(command_state.is("#{command_prefix}_finished"))
-  end
-
   def stub_check_ecs_exec(cluster_arn, task_arn, result = 'Success')
     command_prefix = 'check-ecs-exec'
     command_state = states('command').starts_as("#{command_prefix}_new")

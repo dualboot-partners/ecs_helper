@@ -49,7 +49,7 @@ class ECSHelper::Command::ExecTest < Minitest::Test
 
   def test_exec_with_new_awscli
     container = 'web'
-    cmd = '/bin/bash'
+    cmd = '/bin/sh'
     command = "exec -c=#{container} --command=#{cmd}"
 
     stub_bin("session-manager-plugin", '/usr/local/bin/session-manager-plugin')
@@ -58,14 +58,17 @@ class ECSHelper::Command::ExecTest < Minitest::Test
 
     with_command(command) do |setup|
       cluster_arn, service_arn, task_arn = prepare_data(setup)
-      stub_exec(cluster_arn, task_arn, container, cmd)
+      expected_exec_command = "aws ecs execute-command --cluster #{cluster_arn} --task #{task_arn} --container #{container} --command #{cmd} --interactive"
 
       helper = ECSHelper.new
-      helper.run
+
+      assert_output(/#{expected_exec_command}/) do
+        result_string = helper.run
+        assert expected_exec_command === result_string
+      end
+
     end
   end
-
-
 
   private
 
