@@ -24,6 +24,7 @@ class ECSHelper::Command::BuildAndPush < ECSHelper::Command::Base
       end
       opts.on('-c', '--cache', 'Cache image before build, default false') { options[:cache] = true }
       opts.on('--build-arg=VALUE', 'Pass --build-arg to the build command') { |o| options[:build_args] << o }
+      opts.on('-e', '--env-prefix', 'Add environment name as a prefix to the version tag, default false') { options[:env_prefix] = true }
     end
     [parser, options]
   end
@@ -90,7 +91,11 @@ class ECSHelper::Command::BuildAndPush < ECSHelper::Command::Base
   end
 
   def version_tag
-    "#{repository}:#{helper.version}"
+    if options[:env_prefix]
+      "#{repository}:#{helper.environment}-#{helper.version}"
+    else
+      "#{repository}:#{helper.version}"
+    end
   end
 
   def project
