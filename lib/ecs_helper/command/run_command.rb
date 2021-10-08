@@ -15,7 +15,7 @@ class ECSHelper::Command::RunCommand < ECSHelper::Command::Base
       opts.on("-v VALUE", "--version VALUE", "Set version which will be applied to all containers in the task if tag is present in the repo") { |t| options[:version] = processEqual(t) }
       opts.on("--cluster VALUE", "Set cluster name, could be autodetected if project and environment are specified") { |c| options[:cluster] = processEqual(c) }
       opts.on("-s VALUE", "--service VALUE", "Set service, could be autodetected if application and environment are specified") { |s| options[:service] = processEqual(s) }
-      opts.on("-t VALUE", "--timeout VALUE", "Set timeout how long to wait until deployment finished") { |t| options[:timeout] = processEqual(t) }
+      opts.on("-t VALUE", "--timeout VALUE", Integer, "Set timeout how long to wait until deployment finished") { |t| options[:timeout] = processEqual(t) }
       opts.on("--command VALUE", "Set command, should not demonize container") { |c| options[:command] = processEqual(c) }
       opts.on("-n VALUE", "--name VALUE", "Set name (will be used for task definition name and log prefix") { |l| options[:name] = processEqual(l) }
       opts.on("--container-name VALUE", "Set container name (default is the first container") { |cn| options[:container_name] = processEqual(cn) }

@@ -15,7 +15,7 @@ class ECSHelper::Command::Deploy < ECSHelper::Command::Base
       opts.on("-v VALUE", "--version VALUE", "Set version which will be applied to all containers in the task if tag is present in the repo") { |t| options[:version] = processEqual(t) }
       opts.on("-cl VALUE", "--cluster VALUE", "Set cluster name, could be autodetected if project and environment are specified") { |c| options[:cluster] = processEqual(c) }
       opts.on("-s VALUE", "--service VALUE", "Set service, could be autodetected if application and environment are specified") { |s| options[:service] = processEqual(s) }
-      opts.on("-t VALUE", "--timeout VALUE", "Set timeout how long to wait until deployment finished") { |t| options[:timeout] = processEqual(t) }
+      opts.on("-t VALUE", "--timeout VALUE", Integer, "Set timeout how long to wait until deployment finished") { |t| options[:timeout] = processEqual(t) }
     end
     [parser, options]
   end
@@ -70,7 +70,7 @@ class ECSHelper::Command::Deploy < ECSHelper::Command::Base
   end
 
   def timeout
-    (options[:timeout] || DEFAULT_TIMEOUT).to_i
+    options[:timeout] || DEFAULT_TIMEOUT
   end
 
   def service
