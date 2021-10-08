@@ -55,6 +55,23 @@ class ECSHelper::Command::BuildAndPushTest < Minitest::Test
     end
   end
 
+  def test_build_and_push_with_env_prefix
+    command = 'build_and_push --image=web -e'
+    cache = false
+
+    with_command(command) do |setup|
+      repo = prepare_data(setup, :web)
+      tag = "#{setup.environment}-#{setup.version}"
+
+      stub_auth()
+      stub_build(repo[:repository_uri], tag, cache)
+      stub_push(repo[:repository_uri], tag)
+
+      helper = ECSHelper.new
+      helper.run
+    end
+  end
+
   private
 
   def prepare_data(setup, repo_key = :web)
