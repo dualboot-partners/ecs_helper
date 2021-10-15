@@ -6,7 +6,8 @@ module ECSHelperSupport
     version: :test_sha,
     project: "test-pro",
     application: "test-app",
-    environment: 'qa'
+    environment: 'qa',
+    use_image_tag_env_prefix: nil
   }
 
   def env_prefix
@@ -22,6 +23,7 @@ module ECSHelperSupport
     ENV["PROJECT"] = new_setup.project.to_s
     ENV["APPLICATION"] = new_setup.application.to_s
     ENV["ENVIRONMENT"] = new_setup.environment
+    ENV["USE_IMAGE_TAG_ENV_PREFIX"] = new_setup.use_image_tag_env_prefix
 
     # AWS specific
     ENV['AWS_REGION'] ||= AwsSupport.region

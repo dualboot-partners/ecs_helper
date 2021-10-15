@@ -56,10 +56,10 @@ class ECSHelper::Command::BuildAndPushTest < Minitest::Test
   end
 
   def test_build_and_push_with_env_prefix
-    command = 'build_and_push --image=web -e'
+    command = 'build_and_push --image=web'
     cache = false
 
-    with_command(command) do |setup|
+    with_command(command, use_image_tag_env_prefix: 'true') do |setup|
       repo = prepare_data(setup, :web)
       tag = "#{setup.environment}-#{setup.version}"
 

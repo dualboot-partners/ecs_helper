@@ -124,7 +124,7 @@ class ECSHelper::Command::RunCommand < ECSHelper::Command::Base
   end
 
   def timeout
-    options[:timeout] || DEFAULT_TIMEOUT
+    (options[:timeout] || DEFAULT_TIMEOUT).to_i
   end
 
   def service
