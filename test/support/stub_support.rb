@@ -94,4 +94,16 @@ module StubSupport
     stub_responses[:list_tasks] = { task_arns: tasks_arns }
     ::Aws.config[:ecs] = { stub_responses: stub_responses }
   end
+
+  def stub_describe_task_definition(task_definition)
+    stub_responses = ::Aws.config[:ecs][:stub_responses] rescue {}
+    stub_responses[:describe_task_definition] = { task_definition: task_definition }
+    ::Aws.config[:ecs] = { stub_responses: stub_responses }
+  end
+
+  def stub_describe_services(services)
+    stub_responses = ::Aws.config[:ecs][:stub_responses] rescue {}
+    stub_responses[:describe_services] = { services: services }
+    ::Aws.config[:ecs] = { stub_responses: stub_responses }
+  end
 end
