@@ -52,16 +52,6 @@ class ECSHelper::Command::DeployTest < Minitest::Test
     end
   end
 
-
-  # opts.banner = "Usage: ecs_helper deploy [options]"
-  # opts.on("-p VALUE", "--project VALUE", "Set project name, if not specified will look at ENV['PROJECT'], will be used to detect cluster") { |p| options[:project] = processEqual(p) }
-  # opts.on("-a VALUE", "--application VALUE", "Set application name, if not specified will look at ENV['APPLICATION'], will be used to detect service and task definition") { |a| options[:application] = processEqual(a) }
-  # opts.on("-e VALUE", "--environment VALUE", "Set environment, if not specified will look at ENV['ENVIRONMENT'], it there is empty will try to detect based on the branch") { |e| options[:environment] = processEqual(e) }
-  # opts.on("-v VALUE", "--version VALUE", "Set version which will be applied to all containers in the task if tag is present in the repo") { |t| options[:version] = processEqual(t) }
-  # opts.on("-cl VALUE", "--cluster VALUE", "Set cluster name, could be autodetected if project and environment are specified") { |c| options[:cluster] = processEqual(c) }
-  # opts.on("-s VALUE", "--service VALUE", "Set service, could be autodetected if application and environment are specified") { |s| options[:service] = processEqual(s) }
-  # opts.on("-t VALUE", "--timeout VALUE", "Set timeout how long to wait until deployment finished") { |t| options[:timeout] = processEqual(t) }
-
   private
 
   def prepare_data(setup)
