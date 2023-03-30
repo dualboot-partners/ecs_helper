@@ -1,7 +1,7 @@
 module StubSupport
   def stub_auth()
     command_prefix = 'auth'
-    command = 'aws ecr get-login --no-include-email | sh'
+    command = "docker login -u AWS -p $(aws ecr get-login-password --region=#{AwsSupport.region}) #{AwsSupport.account_id}.dkr.ecr.us-east-1.amazonaws.com"
     command_state = states('command').starts_as("#{command_prefix}_new")
     result = "Success"
     Terrapin::CommandLine.any_instance.expects(:initialize).with(command).when(command_state.is(("#{command_prefix}_new"))).then(command_state.is("#{command_prefix}_initiated"))

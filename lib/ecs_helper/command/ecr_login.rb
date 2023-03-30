@@ -20,7 +20,7 @@ class ECSHelper::Command::ECRLogin < ECSHelper::Command::Base
   end
 
   def auth_private
-    auth_cmd = Terrapin::CommandLine.new("aws ecr get-login --no-include-email | sh")
+    auth_cmd = Terrapin::CommandLine.new("docker login -u AWS -p $(aws ecr get-login-password --region=#{helper.region}) #{helper.account_id}.dkr.ecr.us-east-1.amazonaws.com")
     auth_cmd.run
   end
 end
