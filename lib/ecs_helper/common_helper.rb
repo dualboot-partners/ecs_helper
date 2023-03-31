@@ -8,7 +8,7 @@ BRANCH_TO_ENV_MAPPING = {
 }
 
 class ECSHelper::CommonHelper
-  attr_accessor :helper, :branch, :version, :env, :region, :account_id
+  attr_accessor :helper, :branch, :version, :env
 
   def initialize(helper)
     @helper = helper
