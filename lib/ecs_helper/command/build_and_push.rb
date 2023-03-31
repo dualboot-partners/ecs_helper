@@ -33,13 +33,13 @@ class ECSHelper::Command::BuildAndPush < ECSHelper::Command::Base
   end
 
   def run
-    log("Command", type)
-    log("Options", options)
-    log("Repository", repository)
-    log("Auth Private", auth_private)
-    should_cache? && log("Pull", pull)
-    log("Build", build)
-    log("Push", push)
+    log('Command', type)
+    log('Options', options)
+    log('Repository', repository)
+    log('Auth Private', auth_private)
+    should_cache? && log('Pull', pull)
+    log('Build', build)
+    log('Push', push)
   end
 
   def auth_private
