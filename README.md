@@ -14,9 +14,9 @@ required. Docker images are stored in the ECR Elastic Container Registry.
 
 To use ECS Helper, you need to install the ecs_helper gem. You can install it using the following command:
 
-Copy code
+```bash
 gem install ecs_helper
-Usage
+```
 
 You can use the ecs_helper command followed by the desired command and arguments to control your application deployment
 process.
@@ -28,19 +28,21 @@ tool. You can use the image to run the ecs_helper command in a container.
 
 ## The available commands are:
 
-- build_and_push: builds and pushes the Docker image to Amazon Elastic Container Registry (ECR).
-- deploy: deploys the Docker image to Amazon Elastic Container Service (ECS).
-- export_images: exports Docker images to a file.
-- ecr_login: logs in to Amazon Elastic Container Registry (ECR).
-- run_command: runs a command in a container.
-- export_env_secrets: exports environment variables to a file.
-- exec: executes a command in a running container.
-- check_exec: checks if the command in the running container was executed successfully.
+- **build_and_push**: builds and pushes the Docker image to Amazon Elastic Container Registry (ECR).
+- **deploy**: deploys the Docker image to Amazon Elastic Container Service (ECS).
+- **export_images**: exports Docker images to a file.
+- **ecr_login**: logs in to Amazon Elastic Container Registry (ECR).
+- **run_command**: runs a command in a container.
+- **export_env_secrets**: exports environment variables to a file.
+- **exec**: executes a command in a running container.
+- **check_exec**: checks if the command in the running container was executed successfully.
 
 You can select the desired command by passing the argument to the ecs_helper command. For example, to build and push an
 image with the tag api, you can use the following command:
 
-`ecs_helper build_and_push --image=api`
+```bash
+ecs_helper build_and_push --image=api
+```
 
 ## Using in GitLab CI
 
@@ -90,4 +92,4 @@ deploy_app:
 In this example, ECS Helper is used to build and push the api Docker image in the build_app job, and to deploy the
 application in the deploy_app job.
 
-When a new version of an application is deployed, a new task_definiton revision is created in the target service.
+When a new version of an application is deployed, a new task definition revision is created in the target service.
