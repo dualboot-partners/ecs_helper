@@ -49,6 +49,10 @@ class ECSHelper::CommonHelper
     @account_id ||= ENV['AWS_ACCOUNT_ID'] || `aws sts get-caller-identity --query "Account" --output text`.strip
   end
 
+  def auth_private_cmd
+    @auth_private_cmd ||= Terrapin::CommandLine.new("docker login -u AWS -p $(aws ecr get-login-password --region=#{region}) #{account_id}.dkr.ecr.#{region}.amazonaws.com")
+  end
+
   private
 
   def env_from_branch
