@@ -40,10 +40,6 @@ class ECSHelper::Client
     ecs.register_task_definition(params).task_definition
   end
 
-  def deregister_task_definition(params = {})
-    ecs.deregister_task_definition(params).task_definition
-  end
-
   def update_service(params = {})
     ecs.update_service(params)
   end

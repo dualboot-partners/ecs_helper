@@ -34,14 +34,13 @@ class ECSHelper::Command::Deploy < ECSHelper::Command::Base
     log("Service task definition", service_task_definition.task_definition_arn)
     log("Containers", task_definition_helper.pretty_container_definitions)
     log("New task definition", new_task_definition.task_definition_arn)
-    update_service(new_task_definition.task_definition_arn, service_task_definition.task_definition_arn) && log("Update service", "Service task definition was updated")
+    update_service(new_task_definition.task_definition_arn) && log("Update service", "Service task definition was updated")
     log("Waiting for deployment...")
     wait_for_deployment && log("Success", "Application was succesfully deployed", :cyan)
   end
 
-  def update_service(task_definition_arn, old_task_definition_arn)
+  def update_service(task_definition_arn)
     helper.update_service(cluster_arn, service_arn, task_definition_arn)
-    helper.client.deregister_task_definition(task_definition: old_task_definition_arn)
   end
 
   def wait_for_deployment(time = 0)
