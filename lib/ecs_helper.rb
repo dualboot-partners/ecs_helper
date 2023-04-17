@@ -17,7 +17,7 @@ class ECSHelper
   autoload :Command, 'ecs_helper/command'
 
   def_delegators :client, :task_definitions, :clusters, :services, :tasks, :repositories, :repositories, :task_definition, :run_task
-  def_delegators :common_helper, :version, :branch, :environment, :project, :application
+  def_delegators :common_helper, :version, :branch, :environment, :project, :application, :region, :account_id, :auth_private_cmd
   def_delegators :cluster_helper, :current_cluster, :clusters
   def_delegators :service_helper, :current_service, :services, :update_service
   def_delegators :command, :run, :options, :type

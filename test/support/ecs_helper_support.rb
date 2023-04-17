@@ -27,6 +27,7 @@ module ECSHelperSupport
 
     # AWS specific
     ENV['AWS_REGION'] ||= AwsSupport.region
+    ENV['AWS_ACCOUNT_ID'] ||= AwsSupport.account_id
     ENV['AWS_ACCESS_KEY_ID'] ||= 'test'
     ENV['AWS_SECRET_ACCESS_KEY'] ||= 'test'
 

@@ -62,4 +62,3 @@ class ECSHelper::Command::Base
     value.start_with?('=') ? value[1..-1] : value
   end
 end
-

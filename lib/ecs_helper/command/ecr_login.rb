@@ -20,7 +20,7 @@ class ECSHelper::Command::ECRLogin < ECSHelper::Command::Base
   end
 
   def auth_private
-    auth_cmd = Terrapin::CommandLine.new("aws ecr get-login --no-include-email | sh")
+    auth_cmd = helper.auth_private_cmd
     auth_cmd.run
   end
 end

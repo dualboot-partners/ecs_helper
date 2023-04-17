@@ -46,7 +46,7 @@ class ECSHelper::Command::BuildAndPushTest < Minitest::Test
     with_command(command) do |setup|
       repo = prepare_data(setup, :nginx)
 
-      stub_auth
+      stub_auth()
       stub_build(repo[:repository_uri], setup.version, cache)
       stub_push(repo[:repository_uri], setup.version)
 
