@@ -17,10 +17,12 @@ module StubSupport
     Terrapin::CommandLine.any_instance.expects(:run).returns(result)
   end
 
-  def stub_build(repo, tag, cache = true)
+  def stub_build(repo, tag, options = {})
     command_prefix = 'build'
     command_state = states('command').starts_as("#{command_prefix}_new")
-    command = cache ? "docker build ./ --cache-from #{repo}:latest --tag #{repo}:latest --tag #{repo}:#{tag}" :  "docker build ./ --tag #{repo}:latest --tag #{repo}:#{tag}"
+    command = "docker build #{options.fetch(:context, './')} --file #{options.fetch(:dockerfile, './Dockerfile')}"
+    command << " --cache-from #{repo}:latest" if options[:cache]
+    command << " --tag #{repo}:latest --tag #{repo}:#{tag}"
     result = Terrapin::CommandLine::Output.new('success')
     Terrapin::CommandLine.any_instance.expects(:initialize).with(command).when(command_state.is(("#{command_prefix}_new"))).then(command_state.is("#{command_prefix}_initiated"))
     Terrapin::CommandLine.any_instance.expects(:run).returns(result)
