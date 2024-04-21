@@ -11,8 +11,11 @@ class ECSHelper::Command::BuildAndPush < ECSHelper::Command::Base
               'Set image name, will be used to detect ecr repo where to push image, for example web/nginx/toolbox (required)') do |c|
         options[:image] = processEqual(c)
       end
-      opts.on('-d VALUE', '--directory VALUE', "Set directory for dockerfile and context, default = './'") do |c|
+      opts.on('-d VALUE', '--directory VALUE', "Set directory for build context, default = './'") do |c|
         options[:directory] = processEqual(c)
+      end
+      opts.on('-f VALUE', '--file VALUE', "Set path for Dockerfile, default = './Dockerfile'") do |c|
+        options[:file] = processEqual(c)
       end
       opts.on('-p VALUE', '--project VALUE',
               "Set project name, if not specified will look at ENV['PROJECT'], will be used to detect cluster") do |p|
@@ -63,7 +66,8 @@ class ECSHelper::Command::BuildAndPush < ECSHelper::Command::Base
     build_args = options[:build_args].map { |a| "--build-arg=#{a}" }
     cache_command = should_cache? ? ["--cache-from #{latest_tag}"] : []
     tags_command = ["--tag #{latest_tag} --tag #{version_tag}"]
-    command = (build_command + build_args + cache_command + tags_command).join(' ')
+    file_command = ["--file #{file}"]
+    command = (build_command + file_command + build_args + cache_command + tags_command).join(' ')
     build_cmd = Terrapin::CommandLine.new(command)
 
     console "Building with two tags: #{latest_tag} & #{version_tag}"
@@ -83,6 +87,10 @@ class ECSHelper::Command::BuildAndPush < ECSHelper::Command::Base
 
   def directory
     options[:directory] || './'
+  end
+
+  def file
+    options[:file] || './Dockerfile'
   end
 
   def latest_tag

@@ -8,14 +8,13 @@ require 'aws-sdk-ecr'
 class ECSHelper::Command::BuildAndPushTest < Minitest::Test
   def test_build_and_push_with_cache
     command = 'build_and_push --image=web --cache'
-    cache = true
 
     with_command(command) do |setup|
       repo = prepare_data(setup, :web)
 
       stub_auth()
       stub_pull(repo[:repository_uri])
-      stub_build(repo[:repository_uri], setup.version, cache)
+      stub_build(repo[:repository_uri], setup.version, cache: true)
       stub_push(repo[:repository_uri], setup.version)
 
       helper = ECSHelper.new
@@ -25,13 +24,12 @@ class ECSHelper::Command::BuildAndPushTest < Minitest::Test
 
   def test_build_and_push_without_cache
     command = 'build_and_push --image=web'
-    cache = false
 
     with_command(command) do |setup|
       repo = prepare_data(setup, :web)
 
       stub_auth()
-      stub_build(repo[:repository_uri], setup.version, cache)
+      stub_build(repo[:repository_uri], setup.version, cache: false)
       stub_push(repo[:repository_uri], setup.version)
 
       helper = ECSHelper.new
@@ -41,13 +39,12 @@ class ECSHelper::Command::BuildAndPushTest < Minitest::Test
 
   def test_build_and_push_nginx
     command = 'build_and_push --image=nginx'
-    cache = false
 
     with_command(command) do |setup|
       repo = prepare_data(setup, :nginx)
 
       stub_auth()
-      stub_build(repo[:repository_uri], setup.version, cache)
+      stub_build(repo[:repository_uri], setup.version, cache: false)
       stub_push(repo[:repository_uri], setup.version)
 
       helper = ECSHelper.new
@@ -57,15 +54,35 @@ class ECSHelper::Command::BuildAndPushTest < Minitest::Test
 
   def test_build_and_push_with_env_prefix
     command = 'build_and_push --image=web'
-    cache = false
 
     with_command(command, use_image_tag_env_prefix: 'true') do |setup|
       repo = prepare_data(setup, :web)
       tag = "#{setup.environment}-#{setup.version}"
 
       stub_auth()
-      stub_build(repo[:repository_uri], tag, cache)
+      stub_build(repo[:repository_uri], tag, cache: false)
       stub_push(repo[:repository_uri], tag)
+
+      helper = ECSHelper.new
+      helper.run
+    end
+  end
+
+  def test_build_and_push_with_custom_context
+    options = {
+      context: 'apps/',
+      dockerfile: 'apps/first/Dockerfile',
+      cache: false
+    }
+
+    command = "build_and_push --image=web -d #{options[:context]} -f #{options[:dockerfile]}"
+
+    with_command(command) do |setup|
+      repo = prepare_data(setup, :web)
+
+      stub_auth()
+      stub_build(repo[:repository_uri], setup.version, options)
+      stub_push(repo[:repository_uri], setup.version)
 
       helper = ECSHelper.new
       helper.run
