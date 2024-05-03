@@ -20,6 +20,14 @@ class AwsSupport
       "arn:aws:ecr:#{region}:#{account_id}:repository/#{name}"
     end
 
+    def container_instance_arn
+      "arn:aws:ecr:#{region}:#{account_id}:container-instance/#{random_id(36)}"
+    end
+
+    def container_arn
+      "arn:aws:ecr:#{region}:#{account_id}:container/#{random_id(36)}"
+    end
+
     def repository_name(name)
       name
     end
@@ -64,12 +72,40 @@ class AwsSupport
             name: container_name,
             essential: true,
             image: container_name,
+            log_configuration: {
+              log_driver: "awslogs",
+              options: {
+                "awslogs-group" => container_name,
+                "awslogs-region" => region,
+                "awslogs-stream-prefix" => container_name,
+              },
+            },
           }
         ],
         family: family,
         revision: revision,
         task_definition_arn: task_definition_arn,
         volumes: [],
+      }
+    end
+
+    def task(project, env, container_name, status, exit_code)
+      task_arn = task_arn(project, env)
+      {
+        container_instance_arn: container_instance_arn,
+        containers: [
+          {
+            name: container_name,
+            container_arn: container_arn,
+            last_status: status,
+            task_arn: task_arn,
+            exit_code: exit_code,
+          }
+        ],
+        desired_status: "RUNNING",
+        last_status: status,
+        task_arn: task_arn,
+        task_definition_arn: task_definition_arn,
       }
     end
 
@@ -101,6 +137,13 @@ class AwsSupport
           service_name: service_name,
           status: "ACTIVE",
           task_definition: task_definition_arn,
+          network_configuration: {
+            awsvpc_configuration: {
+              subnets: ["test"], # required
+              security_groups: [],
+              assign_public_ip: "DISABLED"
+            },
+          }
         },
       ]
     end
