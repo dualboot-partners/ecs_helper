@@ -41,5 +41,5 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'colorize', '~> 0.8', '>= 0.8'
   s.add_runtime_dependency 'json', '~> 2.5', '>= 2.5'
   s.add_runtime_dependency 'rexml', '~> 3.2.5'
-  s.add_runtime_dependency 'terrapin', '~> 0.6', '>= 0.6'
+  s.add_runtime_dependency 'terrapin', '~> 1.1', '>= 1.1'
 end
