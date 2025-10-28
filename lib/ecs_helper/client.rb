@@ -20,7 +20,20 @@ class ECSHelper::Client
   end
 
   def services(cluster)
-    @services ||= ecs.list_services(cluster: cluster).service_arns
+    @services_cache ||= {}
+    @services_cache[cluster] ||= begin
+      all_services = []
+      next_token = nil
+      
+      loop do
+        resp = ecs.list_services(cluster: cluster, next_token: next_token, max_results: 100)
+        all_services += resp.service_arns
+        break unless resp.next_token
+        next_token = resp.next_token
+      end
+      
+      all_services
+    end
   end
 
   def tasks(cluster, service)
